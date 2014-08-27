@@ -1,0 +1,40 @@
+extends layout
+
+block content
+
+  div(class='container-fluid')
+    div(class='row')
+      div(class='col-sm-2 col-md-2 sidebar')
+        ul(class='nav nav-sidebar')
+          li(class="sidebar-brand")
+            //a(href='') Florian Cristol
+            h3 Florian Cristol
+          li(class='active')
+            button(type='button', id='particleLaunch', class='left') Particles
+            //a(href='', id='particleLaunch') Particles
+          li()
+            button(type='button', id='attractionLaunch', class='left') Attraction
+            //a(href='', id='attractionLaunch') Attraction
+          li()
+            button(type='button', id='conwayLaunch', class='left') Conway
+            //a(href='', id='conwayLaunch') Conway   
+      div(class='col-sm-10 col-sm-offset-3 col-md-10 col-md-offset-0 main')
+        div(class='row')
+          div(class='col-sm-12 col-md-12 drawingPanel', id='drawingPanel')
+            div(class='topMenu col-sm-12 col-md-12 col-md-offset-0')
+              button(type="button", id="theButton", class="btn ") Toggle ON.OFF
+              button(type="button", id="restart", class="btn ") Initialise
+              button(type="button", id="step", class="btn ") Step
+              button(type="button", id="clear", class="btn") Clear
+              
+            canvas(class='drawingCanvas', id='display')
+            
+  //script(type='text/javascript', src='/javascripts/conway.js')
+  //script(type='text/javascript', src='/javascripts/particles.js')
+  //script(type='text/javascript', src='/javascripts/buttonController.js')
+  script(type='text/javascript', src='/javascripts/map.js')
+  script(type='text/javascript', src='/javascripts/gameOfLife.js')
+  //script(type='text/javascript', src='/javascripts/gameOfLife2.js')
+  script(type='text/javascript', src='/javascripts/quicktest.js')
+  //script(type='text/javascript', src='/javascripts/threesExperiments.js')
+
