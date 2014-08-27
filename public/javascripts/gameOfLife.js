@@ -116,7 +116,7 @@ GameOfLife.prototype.drawGrid = function(){
 	}
 
 };
-GameOfLife.prototype.gameLoop = function(){
+GameOfLife.prototype.systemLoop = function(){
 		this.update();
 		this.drawGrid();
 		
@@ -169,8 +169,4 @@ GameOfLife.prototype.userClick = function(event){
 GameOfLife.prototype.getCellFromMousePosition = function(mousePositionX, mousePositionY){
 	var position = [Math.floor(mousePositionX/cellSize),Math.floor(mousePositionY/cellSize)];
 	return position;
-}
-Vector = function(x, y){
-	this.x = x || 0;
-	this.y = y || 0;
 }
