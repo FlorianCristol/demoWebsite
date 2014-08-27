@@ -72,13 +72,15 @@ TEST.Atest.prototype.drawOnStuff = function(theContext,w,h){
 
 	function fitToContainer(display){
 		display.style.width = '100%';
-		display.style.height= '92%';
+		display.style.height= '99%';
 
 		display.width = display.offsetWidth;
 		display.height = display.offsetHeight;
 	}
-	//theTestGame = new GameOfLife(_display.width, _display.height,_context,200, _bounds);
-	theTestGame = new GameOfLife(500, 500, _context,200,_bounds);
+	theTestGame = new GameOfLife(_display.width, _display.height,_context,200, _bounds);
+	//theTestGame = new GameOfLife(500, 500, _context,200,_bounds);
+	console.log("OffsetWidth"+_container.offsetWidth+" offsetHeight"+_container.offsetHeight);
+	//theTestGame = new GameOfLife(_container.offsetWidth, _container.offsetHeight, _context, 100, _bounds);
 	window.requestAnimationFrame(go);
 	function go(){
 		theTestGame.gameLoop();

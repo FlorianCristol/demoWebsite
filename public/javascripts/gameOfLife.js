@@ -23,10 +23,13 @@ function GameOfLife(w,h,context2,precision,bounds){
 	//Ce qui évite de checker à chaque fois si on est au bord pour 
 	//pour ne pas avoir de out of bounds array
 	this.size = this.precision +1;
-	this.max = this.size -1;
-
-	this.map = new Map(this.size * this.size, this.max);
 	this.cellSize = this.width/this.precision;
+	this.maxX = this.size ;
+	this.maxY = Math.floor(this.height/this.cellSize);
+	console.log("Height: "+this.height+" cellsize:"+this.cellSize);
+	console.log(this.maxY+" "+this.maxX);
+	this.map = new Map(this.maxX, this.maxY);
+
 	this.initialise();
 
 	
@@ -50,9 +53,9 @@ GameOfLife.prototype.running = function(){
 };
 GameOfLife.prototype.update = function(){
 	
-	var newMap = new Map(this.size * this.size, this.max);
-	for(var i = 1 , maxI = this.max -1; i < maxI ; i++){ 
-		for(var j = 1 , maxJ = this.max -1; j < maxJ ; j++){
+	var newMap = new Map(this.maxX, this.maxY);
+	for(var i = 1 , maxI = this.maxX -1; i < maxI ; i++){ 
+		for(var j = 1 , maxJ = this.maxY -1; j < maxJ ; j++){
 			var around = [[i-1, j-1],[i, j-1],[i+1, j-1],[i-1, j],[i+1, j],[i-1, j+1],[i,j+1],[i+1,j+1]];
 			var aliveCells = 0;
 			for(var k = 0, maxAround = around.length; k < maxAround; k++){
@@ -100,9 +103,9 @@ GameOfLife.prototype.drawGrid = function(){
 	this.clearGrid(this.ctx);
 	this.ctx.fillStyle = 'rgb(0,0,255)';
 
-	for(var i = 0 , maxI = this.map.getLength(); i < maxI; i++){
+	for(var i = 0 , maxI = this.maxX; i < maxI; i++){
 		
-		for(var j = 0 , maxJ = this.map.getLength(); j < maxJ;j++){
+		for(var j = 0 , maxJ = this.maxY; j < maxJ;j++){
 
 			if(this.map.getCell(i,j) == 1){
 

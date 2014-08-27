@@ -6,40 +6,43 @@ if(typeof CONWAY === 'undefined'){
 }
 
 
-function Map(size, max){
-	this.max = max;
-	this.arr = new Array(size);
+function Map(sizeX, sizeY){
+	this.maxX = sizeX;
+	this.maxY = sizeY;
+	this.size = this.maxX * this.maxY;
+	this.arr = new Array(this.maxX * this.maxY);
 	this.initialise();
 }
 
 Map.prototype.getCell = function(x, y){
-	return this.arr[x + y * this.max];
+	return this.arr[x + y * this.maxX];
 };
 
 Map.prototype.setCell = function(x, y, value){
-	this.arr[x + y * this.max] = value;
+	this.arr[x + y * this.maxX] = value;
 };
 
 Map.prototype.getLength = function(){
-	return this.max;
+	return this.size;
 };
 
 Map.prototype.initialise = function(){
 
-	for(var i = 0, max = this.max*this.max; i < max; i++){
-
-		if(Math.random()*100 <25){
-			this.arr[i] = 1;
-		}
-		else{
-			this.arr[i] = 0;
+	for(var i  = 1 , maxI = this.maxX; i < maxI ; i++ ){
+		for(var j = 1 , maxJ = this.maxY; j < maxJ; j++){
+			if(Math.random()*100 <25){
+				this.setCell(i,j,1);
+			}
+			else{
+				this.setCell(i,j,0);
+			}
 		}
 	}
 	
 };
 
 Map.prototype.clearIt = function(){
-	for(var i = 0 , max = this.max * this.max ; i < max ; i++){
+	for(var i = 0 , max = this.size ; i < max ; i++){
 		this.arr[i] = 0;
 	}
 };
