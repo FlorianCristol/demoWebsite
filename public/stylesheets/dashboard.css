@@ -115,6 +115,7 @@ body {
   /*width: 83vw;
   height: 92vh;*/
   /*margin-left: -21px;*/
+ /*margin-right: 50px;*/
   /*margin-bottom: 25px;*/
 }
 .testest{
@@ -144,6 +145,7 @@ body {
   border: none;
   color: #373F32;
   border-radius: 0 !important;
+  background-color: #F0F2F7;
   transition: border-top 0.3s;
  
 }

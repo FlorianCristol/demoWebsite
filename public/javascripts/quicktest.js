@@ -1,4 +1,4 @@
-var TEST = { REVISION: '3'};
+/*var TEST = { REVISION: '3'};
 
 TEST.Atest = function(c){
 	this.a = 1;
@@ -31,7 +31,7 @@ function blabla(){
 	console.log(TEST.super(2));
 }
 
-blabla();
+blabla();*/
   //your code herevar display = document.getElementById('display');
 
   /*
@@ -70,15 +70,18 @@ blabla();
 	/*----------------------------------------
 	*	GOOD --------------------------
 	*/
+
+	$( document ).ready(function() {
+
 	window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.mzRequestAnimationFrame;
 
 	var _display = [];
 	_display.width = window.innerWidth;
 	_display.height = window.innerHeight;
-	console.log("display window.inner:"+_display.width+" : "+_display.height);
+	//console.log("display window.inner:"+_display.width+" : "+_display.height);
 	var _container = document.getElementById('display');
 	var _bounds = _container.getBoundingClientRect();
-	console.log("Container CLient rect:"+ _bounds);
+	//console.log("Container CLient rect:"+ _bounds);
 	var _context = _container.getContext('2d');
 	//initConway(_display.width, _display.height, _context);
 	fitToContainer(_container);
@@ -88,25 +91,84 @@ blabla();
 
 		display.width = display.offsetWidth;
 		display.height = display.offsetHeight;
-	}
-	var teub = new TEST.Atest(2);
-	console.log(teub.systemLoop());
-	theTestGame = new ParticlesPlanets(_display.width, _display.height,_context,_bounds,20,200);
+	};
+	//var teub = new TEST.Atest(2);
+	//console.log(teub.systemLoop());
+	please = new pcles.ParticlesPlanets(_display.width, _display.height,_context,_bounds,1500,9);
+
 	//theTestGame = new GameOfLife(_display.width, _display.height,_context,200, _bounds);
 	//theTestGame = new GameOfLife(500, 500, _context,200,_bounds);
-	console.log("OffsetWidth"+_container.offsetWidth+" offsetHeight"+_container.offsetHeight);
+	//	console.log("OffsetWidth"+_container.offsetWidth+" offsetHeight"+_container.offsetHeight);
 	//theTestGame = new GameOfLife(_container.offsetWidth, _container.offsetHeight, _context, 100, _bounds);
 	//theTestParticles.systemLoop();	theTestGame.gameLoop();
-	theTestGame.systemLoop();
-	window.requestAnimationFrame(go);
+	please.systemLoop();
 
+	window.requestAnimationFrame(go);
+	var userClicking = false;
 	//initParticles(_display.width, _display.height,_context);
 	function go(){
 
-		theTestGame.systemLoop();
+		please.systemLoop();
 
 		window.requestAnimationFrame(go);
+	};
+	/*_container.addEventListener('click', function(event){
+		please.userClick(event);
+		console.log("CLICKED YO");
+	}, false);
+	_container.addEventListener('mousemove', function(event){
+		//console.log('FIRED EVENT');
+	}, false);
+*/
+	_container.addEventListener('mousedown', function(event){
+	
+	please.userClick(event);
+	userClicking = true;
+ 	
+	}, true);
+	_container.addEventListener('mouseup', function(event){
+		
+		userClicking = false;
+	}, false);
+	_container.addEventListener('mousemove', function(event){
+		
+		if(userClicking==true && please instanceof GameOfLife){
+
+			please.userClick(event);
+		}
+	},true);
+	//$("button").click(button1Clicked());
+	document.getElementById("button1").onclick = button1Clicked;
+	document.getElementById("button2").onclick = button2Clicked;
+	document.getElementById("button3").onclick = button3Clicked;
+	document.getElementById("button4").onclick = button4Clicked;
+	document.getElementById("particleLaunch").onclick = particleLaunchClicked;
+	document.getElementById("conwayLaunch").onclick = conwayLaunchClicked;
+	document.getElementById("attractionLaunch").onclick = particleLaunchClicked;
+
+	function particleLaunchClicked(){
+		please = new pcles.ParticlesPlanets(_display.width, _display.height,_context,_bounds,1500,9);
+	}
+	function conwayLaunchClicked(){
+		please = new GameOfLife(_display.width, _display.height,_context,200, _bounds);
+	}
+	function button1Clicked(){
+		please.switchRunning();
+		console.log("?SUPA");
+	};
+	function button2Clicked(){
+		please.initialise();
+		console.log("INITIALISED");
+	};
+	function button3Clicked(){
+		please.stepIt();
+		console.log("STEPPING");
+	};
+	function button4Clicked(){
+		please.clear();
+		console.log("CLEARED");
 	}
 	/*
-	*	END GOOD
+	*	END OF JQUERY READY
 	*/
+	} );

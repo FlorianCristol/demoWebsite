@@ -14,7 +14,7 @@ function GameOfLife(w,h,context2,precision,bounds){
 	this.height = h;
 	this.runningBool = true;
 	this.precision = precision;
-	this.boundingClientRect = bounds;
+	this.bounds = bounds;
 	this.ctx = context2;
 	this.userclicking = false;
 	//console.log(this.boundingClientRect);
@@ -37,9 +37,9 @@ function GameOfLife(w,h,context2,precision,bounds){
 }
 GameOfLife.prototype.initialise = function(){
 
-
+	this.map.initialise();
 	this.drawGrid(this.map);
-		};
+};
 GameOfLife.prototype.restart = function(){
 	this.map.initialise();
 };
@@ -51,6 +51,9 @@ GameOfLife.prototype.clear = function(){
 GameOfLife.prototype.running = function(){
 	return this.runningBool;
 };
+GameOfLife.prototype.switchRunning = function(){
+	this.runningBool = !this.runningBool;
+}
 GameOfLife.prototype.update = function(){
 	
 	var newMap = new Map(this.maxX, this.maxY);
@@ -100,7 +103,7 @@ GameOfLife.prototype.giveLife = function(x,y){
 
 GameOfLife.prototype.drawGrid = function(){
 
-	this.clearGrid(this.ctx);
+	this.clearBackground(this.ctx);
 	this.ctx.fillStyle = 'rgb(0,0,255)';
 
 	for(var i = 0 , maxI = this.maxX; i < maxI; i++){
@@ -116,19 +119,29 @@ GameOfLife.prototype.drawGrid = function(){
 	}
 
 };
+GameOfLife.prototype.drawCell = function(x,y){
+	this.ctx.fillStyle = 'rgb(0,0,255)';
+	this.ctx.fillRect(x*this.cellSize,y*this.cellSize,this.cellSize,this.cellSize);
+}
 GameOfLife.prototype.systemLoop = function(){
+	if(this.runningBool || this.step){
 		this.update();
 		this.drawGrid();
+		this.step = false;
+	}
 		
 
 };
-GameOfLife.prototype.clearGrid = function(){
+GameOfLife.prototype.clearBackground = function(){
 
 	this.ctx.fillStyle = 'rgb(0,0,0)';
-
 	this.ctx.fillRect(0,0,this.width,this.height);
 };
 
+
+GameOfLife.prototype.stepIt = function(){
+	this.step = true;
+}
 
 
 GameOfLife.prototype.reloop = function(){
@@ -158,15 +171,15 @@ GameOfLife.prototype.step = function(){
 GameOfLife.prototype.userClick = function(event){
 	
 
-		var rect = this.boundingClientRect;
+		var rect = this.bounds;
 		var mousePositionX = event.clientX - rect.left;
 		var mousePositionY = event.clientY - rect.top;
 		var cellToGiveLife = this.getCellFromMousePosition(mousePositionX, mousePositionY);
 		this.giveLife(cellToGiveLife[0],cellToGiveLife[1]);
-		drawGrid(theGame.map);
+		this.drawCell(cellToGiveLife[0],cellToGiveLife[1]);
 	
 }
 GameOfLife.prototype.getCellFromMousePosition = function(mousePositionX, mousePositionY){
-	var position = [Math.floor(mousePositionX/cellSize),Math.floor(mousePositionY/cellSize)];
+	var position = [Math.floor(mousePositionX/this.cellSize),Math.floor(mousePositionY/this.cellSize)];
 	return position;
 }
