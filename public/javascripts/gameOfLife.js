@@ -22,7 +22,7 @@ function GameOfLife(w,h,context2,precision,bounds){
 	//Qui n'entrent pas dans les calculs d'une génération à l'autre
 	//Ce qui évite de checker à chaque fois si on est au bord pour 
 	//pour ne pas avoir de out of bounds array
-	this.size = this.precision +1;
+	this.size = this.precision ;
 	this.cellSize = this.width/this.precision;
 	this.maxX = this.size ;
 	this.maxY = Math.floor(this.height/this.cellSize);

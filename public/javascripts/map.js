@@ -28,8 +28,8 @@ Map.prototype.getLength = function(){
 
 Map.prototype.initialise = function(){
 
-	for(var i  = 1 , maxI = this.maxX; i < maxI ; i++ ){
-		for(var j = 1 , maxJ = this.maxY; j < maxJ; j++){
+	for(var i  = 1 , maxI = this.maxX-1; i < maxI ; i++ ){
+		for(var j = 1 , maxJ = this.maxY-1; j < maxJ; j++){
 			if(Math.random()*100 <25){
 				this.setCell(i,j,1);
 			}

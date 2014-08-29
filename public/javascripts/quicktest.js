@@ -79,23 +79,48 @@ blabla();*/
 	_display.width = window.innerWidth;
 	_display.height = window.innerHeight;
 	//console.log("display window.inner:"+_display.width+" : "+_display.height);
+
+	var c = document.getElementById('display');
+    renderer = new THREE.WebGLRenderer({canvas: c});
+	/* GET THIS BACK
+	*
+	*/
+	
 	var _container = document.getElementById('display');
+	var _context = _container.getContext('2d');
 	var _bounds = _container.getBoundingClientRect();
 	//console.log("Container CLient rect:"+ _bounds);
-	var _context = _container.getContext('2d');
+	
 	//initConway(_display.width, _display.height, _context);
 	fitToContainer(_container);
+	var _display = [];
+	_display.width = _container.offsetWidth;
+	_display.height = _container.offsetHeight;
 	function fitToContainer(display){
 		display.style.width = '100%';
 		display.style.height= '99%';
 
 		display.width = display.offsetWidth;
 		display.height = display.offsetHeight;
+		console.log("OFFSETWIDTH"+display.width+" offsetHEIGHT"+display.offsetHeight);
 	};
+
+	
+	/*
+	*
+	*	UNTIL HERE GET IT BACK
+	*/
+
+
 	//var teub = new TEST.Atest(2);
 	//console.log(teub.systemLoop());
-	please = new pcles.ParticlesPlanets(_display.width, _display.height,_context,_bounds,1500,9);
-
+    //please = new pcles.ParticlesPlanets(_display.width, _display.height,_context,_bounds,1500,9);
+	//please = new ThreesCube(_display.width, _display.height,document.getElementById("display"),35000);
+	IdontUnderstand = createInnit();
+	reInitialiseCanvas(true);
+	please = createCube(_display.width, _display.height,renderer,35000);
+	console.log("cube width"+_display.width+"cube height"+_display.height);
+	//please = createInnit();
 	//theTestGame = new GameOfLife(_display.width, _display.height,_context,200, _bounds);
 	//theTestGame = new GameOfLife(500, 500, _context,200,_bounds);
 	//	console.log("OffsetWidth"+_container.offsetWidth+" offsetHeight"+_container.offsetHeight);
@@ -109,7 +134,7 @@ blabla();*/
 	function go(){
 
 		please.systemLoop();
-
+		console.log("SystemLoop");
 		window.requestAnimationFrame(go);
 	};
 	/*_container.addEventListener('click', function(event){
@@ -120,23 +145,36 @@ blabla();*/
 		//console.log('FIRED EVENT');
 	}, false);
 */
-	_container.addEventListener('mousedown', function(event){
-	
-	please.userClick(event);
-	userClicking = true;
- 	
-	}, true);
-	_container.addEventListener('mouseup', function(event){
-		
-		userClicking = false;
-	}, false);
-	_container.addEventListener('mousemove', function(event){
-		
-		if(userClicking==true && please instanceof GameOfLife){
 
-			please.userClick(event);
-		}
-	},true);
+/*
+*	TAKE THIS BACK
+*/
+	reinitialiseEvents();
+	function reinitialiseEvents(){
+		_container.addEventListener('mousedown', function(event){
+		
+		please.userClick(event);
+		userClicking = true;
+	 	
+		}, true);
+
+		_container.addEventListener('mouseup', function(event){
+			
+			userClicking = false;
+		}, false);
+
+		_container.addEventListener('mousemove', function(event){
+			
+			if(userClicking==true && please instanceof GameOfLife){
+
+				please.userClick(event);
+			}
+		},true);
+	}
+
+	/*
+	* TILL HERE
+	*/
 	//$("button").click(button1Clicked());
 	document.getElementById("button1").onclick = button1Clicked;
 	document.getElementById("button2").onclick = button2Clicked;
@@ -144,13 +182,41 @@ blabla();*/
 	document.getElementById("button4").onclick = button4Clicked;
 	document.getElementById("particleLaunch").onclick = particleLaunchClicked;
 	document.getElementById("conwayLaunch").onclick = conwayLaunchClicked;
-	document.getElementById("attractionLaunch").onclick = particleLaunchClicked;
+	document.getElementById("attractionLaunch").onclick = attractionLaunchClicked;
 
 	function particleLaunchClicked(){
-		please = new pcles.ParticlesPlanets(_display.width, _display.height,_context,_bounds,1500,9);
+		reInitialiseCanvas(true);
+		
+		//renderer = new THREE.WebGLRenderer({canvas: _container});
+		please = new createCube(_display.width, _display.height,renderer,35000);
+		reinitialiseEvents();
+		console.log("create cube");
 	}
 	function conwayLaunchClicked(){
+		
+		reInitialiseCanvas(false);
 		please = new GameOfLife(_display.width, _display.height,_context,200, _bounds);
+		reinitialiseEvents();
+	}
+	function attractionLaunchClicked(){
+		reInitialiseCanvas(false);
+		please = new pcles.ParticlesPlanets(_display.width, _display.height,_context,_bounds,1500,9);
+		reinitialiseEvents();
+		console.log("create attraction");
+	}
+
+	function reInitialiseCanvas(webGL){
+		$("canvas").remove();
+		if(!webGL){
+			$("#testest").append("<canvas class='drawingCanvas' id='display'></canvas>")
+			_container = document.getElementById('display');
+			_context = _container.getContext('2d');
+			fitToContainer(_container);
+		}
+		if(webGL){
+			//renderer = new THREE.WebGLRenderer({canvas: _container});
+		}
+
 	}
 	function button1Clicked(){
 		please.switchRunning();

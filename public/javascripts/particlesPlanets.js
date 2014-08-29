@@ -17,7 +17,7 @@ pcles.ParticlesPlanets = function(w,h,context,bounds,numberOfParticles,particles
 }
 
 pcles.ParticlesPlanets.prototype.initialise = function(){
-	this.particleSources = [new particleSource(new Vector(this.width/2.5, this.height/2.2), Vector.fromAngle(0, this.width/500))];
+	this.particleSources = [new particleSource(new Vector(this.width/2, this.height/2), Vector.fromAngle(0, this.width/500))];
 	this.particleArray = [];
 	this.planets = [];
 	this.clearBackground();
