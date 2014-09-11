@@ -77,6 +77,7 @@ body {
 .nav-sidebar > .active > button:focus {
   color: #373F32;
   background-color: #DE323B;
+
 }
 .nav-sidebar > .sidebar-brand {
   height: 65px;
@@ -164,4 +165,13 @@ body {
   background-color: #F0F2F7;
   text-align: center;
 
+
+}
+
+
+.topMenu > button:hover,.topMenu >  button:active, .topMenu > button:focus {
+  outline:0;
+}
+input:-moz-focus-inner { 
+  border: 0; 
 }

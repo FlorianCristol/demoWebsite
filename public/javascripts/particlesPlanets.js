@@ -1,4 +1,4 @@
-var pcles = {REVISION: '3'};
+var pcles = {REVISION: '2'};
 
 pcles.ParticlesPlanets = function(w,h,context,bounds,numberOfParticles,particlesPerFrame){
 	this.ctx = context;

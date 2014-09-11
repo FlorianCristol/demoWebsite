@@ -10,22 +10,25 @@ block content
             //a(href='') Florian Cristol
             h3 Florian Cristol
           li(class='active')
-            button(type='button', id='particleLaunch', class='left') Particles
+            button(type='button', id='particleLaunch', class='left particleLaunch') Particles
             //a(href='', id='particleLaunch') Particles
           li()
-            button(type='button', id='attractionLaunch', class='left') Attraction
+            button(type='button', id='attractionLaunch', class='left attractionLaunch') Attraction
             //a(href='', id='attractionLaunch') Attraction
           li()
-            button(type='button', id='conwayLaunch', class='left') Conway
+            button(type='button', id='conwayLaunch', class='left conwayLaunch') Conway
+          li()
+            button(type='button', id='squareAlgLaunch', class='left squareAlgLaunch') Terrain
+            //a(href='', id='conwayLaunch') Conway   
             //a(href='', id='conwayLaunch') Conway   
       div(class='col-sm-10 col-sm-offset-3 col-md-10 col-md-offset-0 main')
         div(class='row')
           div(class='col-sm-12 col-md-12 drawingPanel', id='drawingPanel')
             div(class='topMenu col-sm-12 col-md-12 col-md-offset-0')
-              button(type="button", id="button1", class="btn ") Toggle ON.OFF
-              button(type="button", id="button2", class="btn ") Initialise
-              button(type="button", id="button3", class="btn ") Step
-              button(type="button", id="button4", class="btn") Clear
+              button(type="button", id="button1", class="btn topButton") Toggle
+              button(type="button", id="button2", class="btn topButton") Initialise
+              button(type="button", id="button3", class="btn topButton") Step
+              button(type="button", id="button4", class="btn topButton") Clear
             div(class='testest col-sm-12 col-md-12 col-md-offset-0', id='testest')   
               canvas(class='drawingCanvas', id='display')
             
@@ -43,5 +46,7 @@ block content
   script(type='text/javascript', src='javascripts/existingCanvas.js')
   //script(type='text/javascript', src='/javascripts/particles3.js')
   script(type='text/javascript', src='/javascripts/threesExperiments.js')
+  script(type='text/javascript', src='/javascripts/Tmap.js')
+  script(type='text/javascript', src='/javascripts/diamondSquareAlg.js')
   script(type='text/javascript', src='/javascripts/quicktest.js')
 

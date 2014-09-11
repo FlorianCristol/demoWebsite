@@ -81,6 +81,11 @@ blabla();*/
 	//console.log("display window.inner:"+_display.width+" : "+_display.height);
 
 	var c = document.getElementById('display');
+
+	/* !IMPORTANT
+	*	If I don't create the renderer before calling a three.js instance, it doesnt work...
+	* The canvas gets reloaded as we go through the different applets, but ducktyping is cool
+	*/
     renderer = new THREE.WebGLRenderer({canvas: c});
 	/* GET THIS BACK
 	*
@@ -180,29 +185,60 @@ blabla();*/
 	document.getElementById("button2").onclick = button2Clicked;
 	document.getElementById("button3").onclick = button3Clicked;
 	document.getElementById("button4").onclick = button4Clicked;
-	document.getElementById("particleLaunch").onclick = particleLaunchClicked;
+	document.getElementById("particleLaunch").onclick = particleLaunchClicked
 	document.getElementById("conwayLaunch").onclick = conwayLaunchClicked;
 	document.getElementById("attractionLaunch").onclick = attractionLaunchClicked;
-
+	document.getElementById("squareAlgLaunch").onclick = squareAlgLaunchClicked;
+	/*
+	*First app to be loaded is Particles, and it doesn't support buttons.
+	*/
+	$(".topButton").css({
+			"color":"#BEBEBE"
+		});
 	function particleLaunchClicked(){
 		reInitialiseCanvas(true);
-		
+		$(".active").removeClass("active");
+		$(".particleLaunch").parent().addClass('active');
 		//renderer = new THREE.WebGLRenderer({canvas: _container});
+		$(".topButton").css({
+			"color":"#BEBEBE"
+		});
 		please = new createCube(_display.width, _display.height,renderer,35000);
 		reinitialiseEvents();
 		console.log("create cube");
 	}
 	function conwayLaunchClicked(){
-		
+		$(".active").removeClass("active");
+		$(".conwayLaunch").parent().addClass('active');
+		$(".topButton").css({
+			"color":"black"
+		});
 		reInitialiseCanvas(false);
 		please = new GameOfLife(_display.width, _display.height,_context,200, _bounds);
 		reinitialiseEvents();
 	}
 	function attractionLaunchClicked(){
+		$(".active").removeClass("active");
+		$(".attractionLaunch").parent().addClass('active');
+		$(".topButton").css({
+			"color":"black"
+		});
 		reInitialiseCanvas(false);
 		please = new pcles.ParticlesPlanets(_display.width, _display.height,_context,_bounds,1500,9);
 		reinitialiseEvents();
 		console.log("create attraction");
+	}
+	function squareAlgLaunchClicked(){
+		$(".active").removeClass("active");
+		$(".squareAlgLaunch").parent().addClass('active');
+		console.log("PARENT :"+$(".particleLaunch").parent());
+		$(".topButton").css({
+			"color":"#black"
+		});
+		reInitialiseCanvas(false);
+		please = new TerrainGen(_display.width, _display.height, _context, _bounds, 128);
+		reinitialiseEvents();
+		console.log("create Terrain");
 	}
 
 	function reInitialiseCanvas(webGL){
