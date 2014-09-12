@@ -71,7 +71,7 @@ blabla();*/
 	*	GOOD --------------------------
 	*/
 
-	$( document ).ready(function() {
+	$( window ).load(function() {
 
 	window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.mzRequestAnimationFrame;
 
@@ -192,17 +192,15 @@ blabla();*/
 	/*
 	*First app to be loaded is Particles, and it doesn't support buttons.
 	*/
-	$(".topButton").css({
-			"color":"#BEBEBE"
-		});
+	$(".topButton").removeClass("btnOn");
+	$(".topButton").addClass("disabled btnOff");
 	function particleLaunchClicked(){
 		reInitialiseCanvas(true);
 		$(".active").removeClass("active");
 		$(".particleLaunch").parent().addClass('active');
 		//renderer = new THREE.WebGLRenderer({canvas: _container});
-		$(".topButton").css({
-			"color":"#BEBEBE"
-		});
+		$(".topButton").removeClass("btnOn");
+		$(".topButton").addClass("disabled btnOff");
 		please = new createCube(_display.width, _display.height,renderer,35000);
 		reinitialiseEvents();
 		console.log("create cube");
@@ -210,9 +208,9 @@ blabla();*/
 	function conwayLaunchClicked(){
 		$(".active").removeClass("active");
 		$(".conwayLaunch").parent().addClass('active');
-		$(".topButton").css({
-			"color":"black"
-		});
+				$(".topButton").removeClass("disabled btnOff");
+		$(".topButton").addClass("btnOn");
+
 		reInitialiseCanvas(false);
 		please = new GameOfLife(_display.width, _display.height,_context,200, _bounds);
 		reinitialiseEvents();
@@ -220,9 +218,9 @@ blabla();*/
 	function attractionLaunchClicked(){
 		$(".active").removeClass("active");
 		$(".attractionLaunch").parent().addClass('active');
-		$(".topButton").css({
-			"color":"black"
-		});
+				$(".topButton").removeClass("disabled btnOff");
+		$(".topButton").addClass("btnOn");
+
 		reInitialiseCanvas(false);
 		please = new pcles.ParticlesPlanets(_display.width, _display.height,_context,_bounds,1500,9);
 		reinitialiseEvents();
@@ -232,9 +230,9 @@ blabla();*/
 		$(".active").removeClass("active");
 		$(".squareAlgLaunch").parent().addClass('active');
 		console.log("PARENT :"+$(".particleLaunch").parent());
-		$(".topButton").css({
-			"color":"#black"
-		});
+		$(".topButton").removeClass("btnOn ");
+		$(".topButton").addClass("disabled btnOff");
+		
 		reInitialiseCanvas(false);
 		please = new TerrainGen(_display.width, _display.height, _context, _bounds, 128);
 		reinitialiseEvents();
