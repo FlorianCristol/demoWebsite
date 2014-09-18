@@ -137,8 +137,9 @@ blabla();*/
 	var userClicking = false;
 	//initParticles(_display.width, _display.height,_context);
 	function go(){
-
+		if(please !=='undefined'){
 		please.systemLoop();
+	}
 		console.log("SystemLoop");
 		window.requestAnimationFrame(go);
 	};
@@ -189,6 +190,7 @@ blabla();*/
 	document.getElementById("conwayLaunch").onclick = conwayLaunchClicked;
 	document.getElementById("attractionLaunch").onclick = attractionLaunchClicked;
 	document.getElementById("squareAlgLaunch").onclick = squareAlgLaunchClicked;
+	document.getElementById("snakeLaunch").onclick = snakeLaunchClicked;
 	/*
 	*First app to be loaded is Particles, and it doesn't support buttons.
 	*/
@@ -237,6 +239,19 @@ blabla();*/
 		please = new TerrainGen(_display.width, _display.height, _context, _bounds, 128);
 		reinitialiseEvents();
 		console.log("create Terrain");
+	}
+	function snakeLaunchClicked(){
+		$(".active").removeClass("active");
+		$(".snakeLaunch").parent().addClass('active');
+		console.log("PARENT :"+$(".snakeLaunch").parent());
+		$(".topButton").removeClass("btnOn ");
+		$(".topButton").addClass("disabled btnOff");
+		please = "undefined";
+		reInitialiseCanvas(false);
+
+		var theGame = new SNAKE.Client(_display.width, _display.height, _context, 60);
+				reinitialiseEvents();
+
 	}
 
 	function reInitialiseCanvas(webGL){

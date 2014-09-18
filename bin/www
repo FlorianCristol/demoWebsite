@@ -2,8 +2,31 @@
 var debug = require('debug')('elephant');
 var app = require('../app');
 
+
 app.set('port', process.env.PORT || 2999);
 
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+var waitingRoom = require('SNAKE/waitingRoom.js');
+var wait = new waitingRoom(io);
+
+io.on('connection', function(socket){
+	socket.on('waiting', function(msg){
+		wait.oneMoreUser(msg.playerName, socket);
+	});
+	socket.on('disconnect', function(){
+		wait.userLost(socket);
+	})
+	//socket.emit('hmm', 'really');
+});
+
+server.listen(app.get('port'), function(){
+	 debug('Express server listening on port ' + server.address().port);
+  console.log('Express server listening on port ' + server.address().port);
+});
+
+/*
 var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
-});
+  console.log('Express server listening on port ' + server.address().port);
+});*/
