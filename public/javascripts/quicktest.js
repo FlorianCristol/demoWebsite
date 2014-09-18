@@ -140,7 +140,7 @@ blabla();*/
 		if(please !=='undefined'){
 		please.systemLoop();
 	}
-		console.log("SystemLoop");
+		//console.log("SystemLoop");
 		window.requestAnimationFrame(go);
 	};
 	/*_container.addEventListener('click', function(event){
@@ -158,8 +158,9 @@ blabla();*/
 	reinitialiseEvents();
 	function reinitialiseEvents(){
 		_container.addEventListener('mousedown', function(event){
-		
+		if(please !== 'undefined'){
 		please.userClick(event);
+	}
 		userClicking = true;
 	 	
 		}, true);
@@ -174,6 +175,7 @@ blabla();*/
 			if(userClicking==true && please instanceof GameOfLife){
 
 				please.userClick(event);
+
 			}
 		},true);
 	}
