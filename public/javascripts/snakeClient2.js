@@ -127,7 +127,7 @@ SNAKE.Client = function(w, h, ctx, gridSide) {
 	}];
 	this.initialDirections = ["RIGHT", "LEFT", "RIGHT", "LEFT"];
 	this.growth = 2;
-	this.socket = io();
+	this.socket = io.connect(window.location.hostname);
 	this.newFood = false;
 	this.map = new SNAKE.Map(gridSide, gridSide);
 	this.win;
