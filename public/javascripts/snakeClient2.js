@@ -188,7 +188,7 @@ SNAKE.Client.prototype.draw = function() {
 		var textHeight = this.height / 8;
 		var topLeft = mid - textHeight / 2;
 		this.ctx.font = textHeight + "px Verdana";
-		this.ctx.fillText("Waiting for player", 0, topLeft);
+		this.ctx.fillText("Waiting for player 2", 0, topLeft);
 	} else if (this.win) {
 		this.drawWin();
 	} else {
@@ -212,14 +212,14 @@ SNAKE.Client.prototype.drawRunning = function() {
 		if (savePlayers[i].growth === 0) {
 
 			this.ctx.fillStyle = 'rgb(0,0,0)';
-			this.ctx.fillRect(this.topLeft + savePlayers[i].tail.x * this.cellSize - 0.1, savePlayers[i].tail.y * this.cellSize - 0.1, this.cellSize + 0.2, this.cellSize+ 0.2);
+			this.ctx.fillRect(this.topLeft + savePlayers[i].tail.x * this.cellSize - 0.5, savePlayers[i].tail.y * this.cellSize - 0.5, this.cellSize + 1, this.cellSize+ 1);
 		}
 	}
 	var food = this.map.getFood();
 	if (this.newFood === true) {
 		this.ctx.fillStyle = 'rgb(255,0,0)';
 		for (var i = 0, max = food.length; i < max; i++) {
-			this.ctx.fillRect(this.topLeft + food[i].x * this.cellSize, food[i].y * this.cellSize, this.cellSize, this.cellSize);
+			this.ctx.fillRect(this.topLeft + food[i].x * this.cellSize , food[i].y * this.cellSize , this.cellSize , this.cellSize);
 			//console.log(food[i].x + " " + food[i].y);
 		}
 		this.newFood = false;
@@ -230,7 +230,7 @@ SNAKE.Client.prototype.drawRunning = function() {
 	this.ctx.moveTo(this.topLeft,0);
 	this.ctx.lineTo(this.topLeft+this.cellSize*(this.gridSide),0);
 	this.ctx.lineTo(this.topLeft+this.cellSize*(this.gridSide),this.cellSize*(this.gridSide)+1);
-	this.ctx.lineTo(this.topLeft,this.cellSize*(this.gridSide));
+	this.ctx.lineTo(this.topLeft,this.cellSize*(this.gridSide)+1);
 	this.ctx.lineTo(this.topLeft,0);
 	this.ctx.stroke();
 
