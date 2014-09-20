@@ -224,6 +224,16 @@ SNAKE.Client.prototype.drawRunning = function() {
 		}
 		this.newFood = false;
 	}
+	this.ctx.strokeStyle = 'rgb(255,255,255)';
+	this.ctx.lineWidth = "1";
+	this.ctx.beginPath();
+	this.ctx.moveTo(this.topLeft,0);
+	this.ctx.lineTo(this.topLeft+this.cellSize*(this.gridSide),0);
+	this.ctx.lineTo(this.topLeft+this.cellSize*(this.gridSide),this.cellSize*(this.gridSide)+1);
+	this.ctx.lineTo(this.topLeft,this.cellSize*(this.gridSide));
+	this.ctx.lineTo(this.topLeft,0);
+	this.ctx.stroke();
+
 	/*
 	this.backgroundClear();
 	this.ctx.fillStyle = 'rgb(0,255,0)';
@@ -315,9 +325,9 @@ SNAKE.Client.prototype.leaveGame = function(){
 }
 SNAKE.Client.prototype.setSockets = function() {
 	var that = this;
-	this.socket.emit('waiting', {
+	/*this.socket.emit('waiting', {
 		playerName: "Fugger"
-	});
+	});*/
 
 	this.socket.on('players', function(msg) {
 
