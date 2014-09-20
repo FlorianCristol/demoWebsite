@@ -38,6 +38,9 @@ SNAKE.Map.prototype.foodEaten = function(position){
 
 		}
 	}
+};
+SNAKE.Map.prototype.getMap = function(){
+	return this.arr;
 }
 SNAKE.Map.prototype.initialise = function(){
 	for(var i = 0 , max = this.arr.length; i<max; i++){

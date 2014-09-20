@@ -124,6 +124,7 @@ blabla();*/
 	IdontUnderstand = createInnit();
 	reInitialiseCanvas(true);
 	please = createCube(_display.width, _display.height,renderer,35000);
+	theGame = 'undefined';
 	console.log("cube width"+_display.width+"cube height"+_display.height);
 	//please = createInnit();
 	//theTestGame = new GameOfLife(_display.width, _display.height,_context,200, _bounds);
@@ -205,6 +206,7 @@ blabla();*/
 		//renderer = new THREE.WebGLRenderer({canvas: _container});
 		$(".topButton").removeClass("btnOn");
 		$(".topButton").addClass("disabled btnOff");
+		leaveSnake();
 		please = new createCube(_display.width, _display.height,renderer,35000);
 		reinitialiseEvents();
 		console.log("create cube");
@@ -216,6 +218,7 @@ blabla();*/
 		$(".topButton").addClass("btnOn");
 
 		reInitialiseCanvas(false);
+		leaveSnake();
 		please = new GameOfLife(_display.width, _display.height,_context,200, _bounds);
 		reinitialiseEvents();
 	}
@@ -226,6 +229,7 @@ blabla();*/
 		$(".topButton").addClass("btnOn");
 
 		reInitialiseCanvas(false);
+		leaveSnake();
 		please = new pcles.ParticlesPlanets(_display.width, _display.height,_context,_bounds,1500,9);
 		reinitialiseEvents();
 		console.log("create attraction");
@@ -238,6 +242,7 @@ blabla();*/
 		$(".topButton").addClass("disabled btnOff");
 		
 		reInitialiseCanvas(false);
+		leaveSnake();
 		please = new TerrainGen(_display.width, _display.height, _context, _bounds, 128);
 		reinitialiseEvents();
 		console.log("create Terrain");
@@ -250,12 +255,20 @@ blabla();*/
 		$(".topButton").addClass("disabled btnOff");
 		please = "undefined";
 		reInitialiseCanvas(false);
-
-		var theGame = new SNAKE.Client(_display.width, _display.height, _context, 60);
+		delete theGame;
+		theGame = new SNAKE.Client(_display.width, _display.height, _context, 60);
+		theGame.refreshSockets();
 				reinitialiseEvents();
+				console.log("new game");
 
 	}
-
+	function leaveSnake(){
+		if(theGame !== "undefined"){
+			theGame.leaveGame();
+			theGame = "undefined";
+		}
+		
+	}
 	function reInitialiseCanvas(webGL){
 		$("canvas").remove();
 		if(!webGL){

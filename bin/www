@@ -11,12 +11,22 @@ var waitingRoom = require('SNAKE/waitingRoom.js');
 var wait = new waitingRoom(io);
 
 io.on('connection', function(socket){
+	console.log("connection"+socket.id);
 	socket.on('waiting', function(msg){	
+		if(	!wait.identify(socket)){
+			console.log(socket.id)
 		wait.oneMoreUser(msg.playerName, socket);
+		}
+		console.log("waiting"+socket.id);
 	});
 	socket.on('disconnect', function(){
+		console.log("disconnect"+socket.id);
 		wait.userLost(socket);
-	})
+	});
+	socket.on('reset', function(msg){
+		console.log("reset");
+		wait.userLost(socket);
+	});
 	//socket.emit('hmm', 'really');
 });
 server.listen(app.get('port'), function(){

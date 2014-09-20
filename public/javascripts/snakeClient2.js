@@ -70,12 +70,12 @@ SNAKE.Player.prototype.move = function() {
 	if (this.growing === 0) {
 		this.snakeArray.pop();
 	} else {
-		this.growing = this.growing - 1;
+		//this.growing = this.growing ;
 	}
 };
 
 SNAKE.Player.prototype.grow = function(growth) {
-	this.growing += growth;
+	this.growing = growth;
 };
 SNAKE.Player.prototype.getGrowth = function() {
 	return this.growing;
@@ -105,7 +105,7 @@ SNAKE.Client = function(w, h, ctx, gridSide) {
 	this.width = w,
 	this.height = h;
 	this.cellSize = Math.floor(h / gridSide);
-		this.topLeft = (this.width - this.height) /2;
+	this.topLeft = (this.width - this.height) / 2;
 	this.ctx = ctx;
 	this.gridSide = gridSide;
 	this.players = [];
@@ -197,6 +197,8 @@ SNAKE.Client.prototype.draw = function() {
 
 };
 SNAKE.Client.prototype.drawRunning = function() {
+	
+
 	var savePlayers = [];
 
 	for (var i = 0, max = this.players.length; i < max; i++) {
@@ -222,6 +224,23 @@ SNAKE.Client.prototype.drawRunning = function() {
 		}
 		this.newFood = false;
 	}
+	/*
+	this.backgroundClear();
+	this.ctx.fillStyle = 'rgb(0,255,0)';
+	for (var i = 0; i < this.players.length; i++) {
+		var p1 = this.players[i].getSnakeArray();
+		for (var j = 0; j < p1.length; j++) {
+
+			this.ctx.fillRect(this.topLeft + p1[j].x * this.cellSize, p1[j].y * this.cellSize, this.cellSize, this.cellSize)
+		}
+	}
+	var food = this.map.getFood();
+	for (var i = 0, max = food.length; i < max; i++) {
+		this.ctx.fillRect(this.topLeft + food[i].x * this.cellSize, food[i].y * this.cellSize, this.cellSize, this.cellSize);
+		//console.log(food[i].x + " " + food[i].y);
+	}
+	*/
+
 }
 SNAKE.Client.prototype.drawWin = function() {
 	this.ctx.fillStyle = 'rgb(255,0,0)';
@@ -247,6 +266,7 @@ SNAKE.Client.prototype.backgroundClear = function() {
 }
 SNAKE.Client.prototype.initKeyPressed = function() {
 	var that = this;
+
 	$(document).keydown(function(e) {
 		var key = e.which;
 		if (key == "37") that.keyPressed = "LEFT";
@@ -255,30 +275,43 @@ SNAKE.Client.prototype.initKeyPressed = function() {
 		else if (key == "40") that.keyPressed = "DOWN";
 
 	});
+
 };
 SNAKE.Client.prototype.checkCollisions = function() {
 	for (var i = 0, max = this.players.length; i < max; i++) {
+
 		var head = this.players[i].getHead();
 		var position = {};
 		if (head.x < 0) {
-			position.x = 60;
+			position.x = 59;
 			position.y = head.y;
 			this.players[i].setHead(position);
-		} else if (head.x > 60) {
+		} else if (head.x > 59) {
 			position.x = 0;
 			position.y = head.y;
 			this.players[i].setHead(position);
-		} else if (head.y > 60) {
+		} else if (head.y > 59) {
 			position.x = head.x;
 			position.y = 0;
 			this.players[i].setHead(position);
 		} else if (head.y < 0) {
 			position.x = head.x;
-			position.y = 60;
+			position.y = 59;
 			this.players[i].setHead(position);
 		}
 
 	}
+		
+}
+SNAKE.Client.prototype.refreshSockets = function() {
+	this.socket.emit('reset', "reset");
+	this.socket.emit('waiting', {
+		playerName: "Fugger"
+	});
+	//console.log("REFRESHED SOCKETS LOL");
+}
+SNAKE.Client.prototype.leaveGame = function(){
+	this.socket.emit('reset','reset');
 }
 SNAKE.Client.prototype.setSockets = function() {
 	var that = this;
@@ -305,11 +338,12 @@ SNAKE.Client.prototype.setSockets = function() {
 		that.setPlayerMovement(msg.p2, msg.p2Dir);
 		that.setPlayerGrowth(msg.p1, msg.p1Growth);
 		that.setPlayerGrowth(msg.p2, msg.p2Growth);
-
+		
 		that.movePlayers();
 		that.checkCollisions();
-		that.socket.emit('key', that.keyPressed);
 		that.draw();
+		that.socket.emit('key', that.keyPressed);
+
 
 	});
 	this.socket.on('food', function(msg) {
@@ -327,8 +361,3 @@ SNAKE.Client.prototype.setSockets = function() {
 		that.win = true;
 	});
 }
-
-
-	
-
-
