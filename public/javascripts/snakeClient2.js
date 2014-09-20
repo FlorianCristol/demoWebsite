@@ -212,7 +212,7 @@ SNAKE.Client.prototype.drawRunning = function() {
 		if (savePlayers[i].growth === 0) {
 
 			this.ctx.fillStyle = 'rgb(0,0,0)';
-			this.ctx.fillRect(this.topLeft + savePlayers[i].tail.x * this.cellSize, savePlayers[i].tail.y * this.cellSize, this.cellSize, this.cellSize);
+			this.ctx.fillRect(this.topLeft + savePlayers[i].tail.x * this.cellSize - 0.05, savePlayers[i].tail.y * this.cellSize - 0.05, this.cellSize + 0.1, this.cellSize+ 0.1);
 		}
 	}
 	var food = this.map.getFood();
