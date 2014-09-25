@@ -1,6 +1,9 @@
-//var display = document.getElementById('display');
+/*
+*	Simple and uninteresting cube made out of particles in three.js
+* only on the site because it looks "impressive" to someone who doesn't know 
+* programming
+*/
 
-//document.body.appendChild(renderer.domElement);
 function ThreesCube(w,h,renderer,numberOfParticles){
 	this.width = w;
 	this.height = h;

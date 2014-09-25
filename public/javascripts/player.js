@@ -1,4 +1,6 @@
-
+/*
+*	The player in the raycaster implementation
+*/
 var RaycasterPlayer = function(posX,posY,direction){
 
 	var position = {

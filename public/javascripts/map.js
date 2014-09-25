@@ -1,10 +1,10 @@
 /*
 *	@author Florian Cristol
+* map stocking conway grid
 */
 if(typeof CONWAY === 'undefined'){
 	var CONWAY = { REVISION: '3'};
 }
-
 
 function Map(sizeX, sizeY){
 	this.maxX = sizeX;
@@ -38,7 +38,6 @@ Map.prototype.initialise = function(){
 			}
 		}
 	}
-	
 };
 
 Map.prototype.clearIt = function(){

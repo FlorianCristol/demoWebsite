@@ -1,3 +1,7 @@
+/*
+*	@author Florian Cristol
+*	
+*/
 if (typeof SNAKE === 'undefined') {
 	SNAKE = {
 		REVISION: 1
@@ -159,29 +163,10 @@ SNAKE.Client.prototype.setPlayerGrowth = function(player, growth) {
 	this.playerBook[player].grow(growth);
 };
 SNAKE.Client.prototype.draw = function() {
-	//this.backgroundClear();
 
-	/*
-
-	var savePlayers = [];
-	savePlayers.push(this.players[0].getSnakeArray());
-	savePlayers.push(this.players[1].getSnakeArray());
-
-	for(var i = 0 ; i < savePlayers.length ; i++){
-		for(var j = 0 ; j < savePlayers[i].length; j++){
-			this.ctx.fillRect(savePlayers[i][j].x*this.cellSize,savePlayers[i][j].y*this.cellSize,this.cellSize,this.cellSize);
-
-		}
-	}
-	var food = this.map.getFood();
-
-	for(var i = 0, max = food.length; i < max ; i++){
-		this.ctx.fillRect(food[i].x*this.cellSize,food[i].y*this.cellSize,this.cellSize,this.cellSize);
-	}
-*/
+//Kind of a state machine which shouldn't be here
 	if (this.running) {
 		this.drawRunning();
-		//console.log("SNAKE LENGTH: " + this.players[0].getSnakeArray().length);
 	} else if (this.waiting) {
 		this.ctx.fillStyle = 'rgb(255,0,0)';
 		var mid = this.height / 2;
@@ -197,7 +182,7 @@ SNAKE.Client.prototype.draw = function() {
 
 };
 SNAKE.Client.prototype.drawRunning = function() {
-	
+	//Only the head is drawn and the tail is errased!
 
 	var savePlayers = [];
 
@@ -234,24 +219,9 @@ SNAKE.Client.prototype.drawRunning = function() {
 	this.ctx.lineTo(this.topLeft,0);
 	this.ctx.stroke();
 
-	/*
-	this.backgroundClear();
-	this.ctx.fillStyle = 'rgb(0,255,0)';
-	for (var i = 0; i < this.players.length; i++) {
-		var p1 = this.players[i].getSnakeArray();
-		for (var j = 0; j < p1.length; j++) {
 
-			this.ctx.fillRect(this.topLeft + p1[j].x * this.cellSize, p1[j].y * this.cellSize, this.cellSize, this.cellSize)
-		}
-	}
-	var food = this.map.getFood();
-	for (var i = 0, max = food.length; i < max; i++) {
-		this.ctx.fillRect(this.topLeft + food[i].x * this.cellSize, food[i].y * this.cellSize, this.cellSize, this.cellSize);
-		//console.log(food[i].x + " " + food[i].y);
-	}
-	*/
+};
 
-}
 SNAKE.Client.prototype.drawWin = function() {
 	this.ctx.fillStyle = 'rgb(255,0,0)';
 	var mid = this.height / 2;
@@ -260,6 +230,7 @@ SNAKE.Client.prototype.drawWin = function() {
 	this.ctx.font = textHeight + "px Verdana";
 	this.ctx.fillText("YOU WON !", 0, topLeft);
 }
+;
 SNAKE.Client.prototype.drawLost = function() {
 	this.ctx.fillStyle = 'rgb(255,0,0)';
 	var mid = this.height / 2;
@@ -268,12 +239,12 @@ SNAKE.Client.prototype.drawLost = function() {
 	this.ctx.font = textHeight + "px Verdana";
 	this.ctx.fillText("YOU LOST !", 0, topLeft);
 }
+;
 SNAKE.Client.prototype.backgroundClear = function() {
 	this.ctx.fillStyle = 'rgb(0,0,0)';
 	this.ctx.fillRect(0, 0, this.width, this.height);
+};
 
-
-}
 SNAKE.Client.prototype.initKeyPressed = function() {
 	var that = this;
 
@@ -287,6 +258,7 @@ SNAKE.Client.prototype.initKeyPressed = function() {
 	});
 
 };
+
 SNAKE.Client.prototype.checkCollisions = function() {
 	for (var i = 0, max = this.players.length; i < max; i++) {
 
@@ -318,17 +290,12 @@ SNAKE.Client.prototype.refreshSockets = function() {
 	this.socket.emit('waiting', {
 		playerName: "Fugger"
 	});
-	//console.log("REFRESHED SOCKETS LOL");
 }
 SNAKE.Client.prototype.leaveGame = function(){
 	this.socket.emit('reset','reset');
 }
 SNAKE.Client.prototype.setSockets = function() {
 	var that = this;
-	/*this.socket.emit('waiting', {
-		playerName: "Fugger"
-	});*/
-
 	this.socket.on('players', function(msg) {
 
 		that.addPlayer(msg.player1, 0);
@@ -337,6 +304,7 @@ SNAKE.Client.prototype.setSockets = function() {
 		that.running = true;
 		that.backgroundClear();
 	});
+	
 	/*At every tick the server sends updated info about each snake's status and food
 	 *It receives:
 	 *p1,p2,p1Growth,p2Growth,p1Dir,p2Dir,food

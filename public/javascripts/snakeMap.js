@@ -1,4 +1,7 @@
-
+/*
+*	@author Florian Cristol
+* Saves the snake grid
+*/
 if(typeof SNAKE === 'undefined'){
 	SNAKE = {REVISION: 1};
 }

@@ -1,8 +1,13 @@
+/*
+*	@author Florian Cristol
+*	Movement manager class to move the player (camera)
+* Could be reworked along with player.js to enable strafing while ging forward
+*/
 function MovementManager(unitsPerGrid) {
 	this.unitsPerGrid = unitsPerGrid;
 	this.initialise();
-
 }
+
 MovementManager.prototype.initialise = function() {
 	this.keys = {
 		LEFT: false,
@@ -55,12 +60,14 @@ MovementManager.prototype.moveEntity = function(p, map) {
 	if (this.keys['TRIGHT'] === true) {
 		player.angleDown();
 	}
+
 	var newPosition = p.getNewPosition();
 	var oldPosition = p.getPosition();
 	var newXGrid = Math.floor(newPosition.x / this.unitsPerGrid);
 	var newYGrid = Math.floor(newPosition.y / this.unitsPerGrid);
 	var oldXGrid = Math.floor(oldPosition.x / this.unitsPerGrid);
 	var oldYGrid = Math.floor(oldPosition.y / this.unitsPerGrid);
+
 	if (map.getCell(newXGrid, newYGrid) === 0) {
 		player.confirmMovement();
 	} else if (map.getCell(newXGrid, oldYGrid) === '0') {
@@ -69,6 +76,4 @@ MovementManager.prototype.moveEntity = function(p, map) {
 	} else if (map.getCell(oldXGrid, newYGrid) === '0') {
 		player.confirmYMovement();
 	}
-
-
-}
+};
