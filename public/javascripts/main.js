@@ -11,25 +11,25 @@ $(window).load(function() {
 	_display.height = window.innerHeight;
 
 	var c = document.getElementById('display');
-
+	var webgl = ( function () { try { var canvas = document.getElementById( 'display' ); return !! window.WebGLRenderingContext && ( canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) ); } catch( e ) { return false; } } )();
+if(webgl){
+	renderer = new THREE.WebGLRenderer({
+		canvas: c
+	});
+}
 
 	//Next two functions where used to understand what was going on with three.js
-	/*
-	function Innit() {
-		var c = document.getElementById('display');
-		this.renderer = new THREE.WebGLRenderer({
-			canvas: c
-		});
-	}
 
-	function createInnit() {
-		return new Innit();
-	}
-*/
+
+
 	var _container = document.getElementById('display');
+
 	var _context = _container.getContext('2d');
+
 	var _bounds = _container.getBoundingClientRect();
+
 	fitToContainer(_container);
+
 	var _display = [];
 	_display.width = _container.offsetWidth;
 	_display.height = _container.offsetHeight;
@@ -49,21 +49,14 @@ $(window).load(function() {
 	 * The canvas gets reloaded as we go through the different applets, but ducktyping is cool
 	 */
 
-	 var webgl = ( function () { try { var canvas = document.createElement( 'canvas' ); return !! window.WebGLRenderingContext && ( canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) ); } catch( e ) { return false; } } )();
 
-	if (webgl) {
-		Detector.webgl? console.log("yes") : console.log("no");
-		renderer = new THREE.WebGLRenderer({
-			canvas: c
-		});
 
-		please = createCube(_display.width, _display.height, renderer, 35000);
-		please.systemLoop();
-		return;
-	} else {
-		please = "undefined";
-	}
-	theGame = 'undefined';
+if(webgl){
+	please = createCube(_display.width, _display.height, renderer, 35000);
+}else{
+	please = "undefined";
+}
+var theGame = "undefined";
 
 
 	window.requestAnimationFrame(go);
@@ -141,9 +134,9 @@ $(window).load(function() {
 		$(".topButton").removeClass("btnOn");
 		$(".topButton").addClass("disabled btnOff");
 		leaveSnake();
-				if(webgl){
-		please = new createCube(_display.width, _display.height, renderer, 35000);
-	}
+		if (webgl) {
+			please = new createCube(_display.width, _display.height, renderer, 35000);
+		}
 		reinitialiseEvents();
 		console.log("create cube");
 	}
