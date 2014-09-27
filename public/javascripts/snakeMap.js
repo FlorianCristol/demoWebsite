@@ -6,7 +6,6 @@ if(typeof SNAKE === 'undefined'){
 	SNAKE = {REVISION: 1};
 }
 
-
 SNAKE.Map = function(sizeX, sizeY){
 	this.maxX = sizeX;
 	this.maxY = sizeY;

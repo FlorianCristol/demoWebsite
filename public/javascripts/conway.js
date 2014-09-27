@@ -1,4 +1,7 @@
-
+/*
+* @author Florian Cristol
+* The 
+*/
 
 function Conway(precision){
 	this.size = precision + 1;

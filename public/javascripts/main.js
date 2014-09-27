@@ -12,16 +12,9 @@ $(window).load(function() {
 
 	var c = document.getElementById('display');
 
-	/* !IMPORTANT
-	 *	If I don't create the renderer before calling a three.js instance, it doesnt work...
-	 * The canvas gets reloaded as we go through the different applets, but ducktyping is cool
-	 */
-	renderer = new THREE.WebGLRenderer({
-		canvas: c
-	});
 
-//Next two functions where used to understand what was going on with three.js
-
+	//Next two functions where used to understand what was going on with three.js
+	/*
 	function Innit() {
 		var c = document.getElementById('display');
 		this.renderer = new THREE.WebGLRenderer({
@@ -32,7 +25,7 @@ $(window).load(function() {
 	function createInnit() {
 		return new Innit();
 	}
-
+*/
 	var _container = document.getElementById('display');
 	var _context = _container.getContext('2d');
 	var _bounds = _container.getBoundingClientRect();
@@ -50,9 +43,28 @@ $(window).load(function() {
 		console.log("OFFSETWIDTH" + display.width + " offsetHEIGHT" + display.offsetHeight);
 	};
 	reInitialiseCanvas(true);
-	please = createCube(_display.width, _display.height, renderer, 35000);
+
+	/* !IMPORTANT
+	 *	If I don't create the renderer before calling a three.js instance, it doesnt work...
+	 * The canvas gets reloaded as we go through the different applets, but ducktyping is cool
+	 */
+
+	 var webgl = ( function () { try { var canvas = document.createElement( 'canvas' ); return !! window.WebGLRenderingContext && ( canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) ); } catch( e ) { return false; } } )();
+
+	if (webgl) {
+		Detector.webgl? console.log("yes") : console.log("no");
+		renderer = new THREE.WebGLRenderer({
+			canvas: c
+		});
+
+		please = createCube(_display.width, _display.height, renderer, 35000);
+		please.systemLoop();
+		return;
+	} else {
+		please = "undefined";
+	}
 	theGame = 'undefined';
-	please.systemLoop();
+
 
 	window.requestAnimationFrame(go);
 	var userClicking = false;
@@ -129,7 +141,9 @@ $(window).load(function() {
 		$(".topButton").removeClass("btnOn");
 		$(".topButton").addClass("disabled btnOff");
 		leaveSnake();
+				if(webgl){
 		please = new createCube(_display.width, _display.height, renderer, 35000);
+	}
 		reinitialiseEvents();
 		console.log("create cube");
 	}
@@ -154,7 +168,9 @@ $(window).load(function() {
 
 		reInitialiseCanvas(false);
 		leaveSnake();
+
 		please = new pcles.ParticlesPlanets(_display.width, _display.height, _context, _bounds, 1500, 9);
+
 		reinitialiseEvents();
 		console.log("create attraction");
 	}
