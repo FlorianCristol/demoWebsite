@@ -11,12 +11,19 @@ $(window).load(function() {
 	_display.height = window.innerHeight;
 
 	var c = document.getElementById('display');
-	var webgl = ( function () { try { var canvas = document.getElementById( 'display' ); return !! window.WebGLRenderingContext && ( canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) ); } catch( e ) { return false; } } )();
-if(webgl){
-	renderer = new THREE.WebGLRenderer({
-		canvas: c
-	});
-}
+	var webgl = (function() {
+		try {
+			var canvas = document.getElementById('display');
+			return !!window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+		} catch (e) {
+			return false;
+		}
+	})();
+	if (webgl) {
+		renderer = new THREE.WebGLRenderer({
+			canvas: c
+		});
+	}
 
 	//Next two functions where used to understand what was going on with three.js
 
@@ -51,12 +58,12 @@ if(webgl){
 
 
 
-if(webgl){
-	please = createCube(_display.width, _display.height, renderer, 35000);
-}else{
-	please = "undefined";
-}
-var theGame = "undefined";
+	if (webgl) {
+		please = createCube(_display.width, _display.height, renderer, 35000);
+	} else {
+		please = "undefined";
+	}
+	var theGame = "undefined";
 
 
 	window.requestAnimationFrame(go);
@@ -112,6 +119,7 @@ var theGame = "undefined";
 	 */
 	$(".topButton").removeClass("btnOn");
 	$(".topButton").addClass("disabled btnOff");
+	tracer = false;
 
 	function rayLaunchClicked() {
 		$(".active").removeClass("active");
@@ -121,7 +129,33 @@ var theGame = "undefined";
 
 		reInitialiseCanvas(false);
 		leaveSnake();
-		please = new Tracer(_display.width, _display.height, _context);
+		if (!tracer) {
+			$.getScript("/javascripts/gfxEngine.js", function(response, success) {
+				if (success === "success") {
+					$.getScript("/javascripts/tracer.js", function(response, success) {
+						if (success === "success") {
+							$.getScript("/javascripts/tracerMap.js", function(response, success) {
+								if (success === "success") {
+									$.getScript("/javascripts/player.js", function(response, success) {
+										if (success === "success") {
+											$.getScript("/javascripts/movementManager.js", function(response, success) {
+												if (success === "success") {
+													tracer = true;
+													please = new Tracer(_display.width, _display.height, _context);
+												}
+											})
+										}
+									});
+								}
+							});
+						}
+					});
+				}
+			});
+		} else {
+			please = new Tracer(_display.width, _display.height, _context);
+		}
+		//please = new Tracer(_display.width, _display.height, _context);
 		reinitialiseEvents();
 		console.log("create Ray caster");
 	}
@@ -140,6 +174,7 @@ var theGame = "undefined";
 		reinitialiseEvents();
 		console.log("create cube");
 	}
+	var cw = false;
 
 	function conwayLaunchClicked() {
 		$(".active").removeClass("active");
@@ -149,9 +184,25 @@ var theGame = "undefined";
 
 		reInitialiseCanvas(false);
 		leaveSnake();
-		please = new GameOfLife(_display.width, _display.height, _context, 200, _bounds);
+		if (!cw) {
+			$.getScript("/javascripts/map.js", function(response, success) {
+				if (success === "success") {
+					$.getScript("/javascripts/gameOfLife.js", function(response, success) {
+						if (success === "success") {
+							cw = true;
+							please = new GameOfLife(_display.width, _display.height, _context, 200, _bounds);
+						}
+					});
+				}
+			});
+		} else {
+			please = new GameOfLife(_display.width, _display.height, _context, 200, _bounds);
+		}
+
+
 		reinitialiseEvents();
 	}
+	var att = false;
 
 	function attractionLaunchClicked() {
 		$(".active").removeClass("active");
@@ -162,11 +213,33 @@ var theGame = "undefined";
 		reInitialiseCanvas(false);
 		leaveSnake();
 
-		please = new pcles.ParticlesPlanets(_display.width, _display.height, _context, _bounds, 1500, 9);
+		if (!att) {
+			$.getScript("/javascripts/Vector.js", function(response, success) {
+				if (success === "success") {
+					$.getScript("/javascripts/planet.js", function(response, success) {
+						if (success === "success") {
+							$.getScript("/javascripts/particles.js", function(response, success) {
+								if (success === "success") {
+									$.getScript("/javascripts/particlesPlanets.js", function(response, success) {
+										if (success === "success") {
+											att = true;
+											please = new pcles.ParticlesPlanets(_display.width, _display.height, _context, _bounds, 15000, 9);
+										}
+									});
+								}
+							});
+						}
+					});
+				}
+			});
+		} else {
+			please = new pcles.ParticlesPlanets(_display.width, _display.height, _context, _bounds, 1500, 9);
+		}
 
 		reinitialiseEvents();
 		console.log("create attraction");
 	}
+	var sq = false;
 
 	function squareAlgLaunchClicked() {
 		$(".active").removeClass("active");
@@ -177,10 +250,25 @@ var theGame = "undefined";
 
 		reInitialiseCanvas(false);
 		leaveSnake();
-		please = new TerrainGen(_display.width, _display.height, _context, _bounds, 128);
+		if (!sq) {
+			$.getScript("/javascripts/Tmap.js", function(response, success) {
+				if (success === "success") {
+					$.getScript("/javascripts/diamondSquareAlg.js", function(response, success) {
+						if (success === "success") {
+							sq = true;
+							please = new TerrainGen(_display.width, _display.height, _context, _bounds, 128);
+						}
+					});
+				}
+			});
+		} else {
+			please = new TerrainGen(_display.width, _display.height, _context, _bounds, 128);
+		}
+		//please = new TerrainGen(_display.width, _display.height, _context, _bounds, 128);
 		reinitialiseEvents();
 		console.log("create Terrain");
 	}
+	var sk = false;
 
 	function snakeLaunchClicked() {
 		$(".active").removeClass("active");
@@ -188,11 +276,33 @@ var theGame = "undefined";
 		console.log("PARENT :" + $(".snakeLaunch").parent());
 		$(".topButton").removeClass("btnOn ");
 		$(".topButton").addClass("disabled btnOff");
-		please = "undefined";
+
 		reInitialiseCanvas(false);
-		delete theGame;
-		theGame = new SNAKE.Client(_display.width, _display.height, _context, 60);
-		theGame.refreshSockets();
+
+		//theGame = new SNAKE.Client(_display.width, _display.height, _context, 60);
+
+		if (!sk) {
+			$.getScript("/javascripts/snakeMap.js", function(response, success) {
+				if (success === "success") {
+					$.getScript("/javascripts/snakeClient2.js", function(response, success) {
+						if (success === "success") {
+
+							sk = true;
+							please = "undefined";
+							delete theGame;
+							theGame = new SNAKE.Client(_display.width, _display.height, _context, 60);
+							theGame.refreshSockets();
+						}
+
+					});
+				}
+			});
+		} else {
+			please = "undefined";
+			delete theGame;
+			theGame = new SNAKE.Client(_display.width, _display.height, _context, 60);
+			theGame.refreshSockets();
+		}
 		reinitialiseEvents();
 		console.log("new game");
 
