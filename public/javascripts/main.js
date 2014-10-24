@@ -25,10 +25,6 @@ $(window).load(function() {
 		});
 	}
 
-	//Next two functions where used to understand what was going on with three.js
-
-
-
 	var _container = document.getElementById('display');
 
 	var _context = _container.getContext('2d');
@@ -55,8 +51,6 @@ $(window).load(function() {
 	 *	If I don't create the renderer before calling a three.js instance, it doesnt work...
 	 * The canvas gets reloaded as we go through the different applets, but ducktyping is cool
 	 */
-
-
 
 	if (webgl) {
 		please = createCube(_display.width, _display.height, renderer, 35000);
